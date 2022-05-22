@@ -1,4 +1,5 @@
 from pong_screen import PongScreen
+from scoreboard import ScoreBoard
 from paddle import Paddle
 from ball import Ball
 import time
@@ -6,7 +7,9 @@ import time
 pong = PongScreen()
 screen = pong.screen
 left_paddle = Paddle(pong, "L")
+left_scoreboard = ScoreBoard(-80, 260)
 right_paddle = Paddle(pong, "R")
+right_scoreboard = ScoreBoard(200, 260)
 ball = Ball(pong)
 
 screen.listen()
@@ -30,10 +33,14 @@ while pong.is_game_on:
     ball.check_collision(left_paddle, right_paddle)
     if ball.beyond_right():
         ball.refresh()
-        # TODO: Add score to left player
+        if ball.is_going_right():
+            ball.bounce(horizontally=True)  # start against to one had the score
+        left_scoreboard.increase_score()
     elif ball.beyond_left():
         ball.refresh()
-        # TODO: Add score to right player
+        if ball.is_going_left():
+            ball.bounce(horizontally=True)  # start against to one had the score
+        right_scoreboard.increase_score()
     screen.update()
     time.sleep(0.01)
 
