@@ -27,11 +27,11 @@ while pong.is_game_on:
     ball.move()
     left_paddle.move()
     right_paddle.move()
-    # TODO: detect any paddle collision
-    if ball.is_on_right_bound():
+    ball.check_collision(left_paddle, right_paddle)
+    if ball.beyond_right():
         ball.refresh()
         # TODO: Add score to left player
-    elif ball.is_on_left_bound():
+    elif ball.beyond_left():
         ball.refresh()
         # TODO: Add score to right player
     screen.update()

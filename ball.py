@@ -16,20 +16,44 @@ class Ball(Turtle):
 
     def move(self):
         if self.is_on_top() or self.is_on_bottom():
-            dir_x = self.direction[0]
-            dir_y = -self.direction[1]
-            self.direction = (dir_x, dir_y)
+            self.bounce(horizontally=False)
         x = self.xcor() + (self.direction[0] * self.pong.game_speed)
         y = self.ycor() + (self.direction[1] * self.pong.game_speed)
         self.goto(x, y)
 
-    def is_on_left_bound(self):
-        is_going_left = self.direction[0] < 0
-        return is_going_left and self.xcor() <= -HALF_WIDTH
+    def beyond_left(self):
+        return self.is_going_left() and self.xcor() <= -HALF_WIDTH
 
-    def is_on_right_bound(self):
-        is_going_right = self.direction[0] > 0
-        return is_going_right and self.xcor() >= HALF_WIDTH
+    def beyond_right(self):
+        return self.is_going_right() and self.xcor() >= HALF_WIDTH
+
+    def bounce(self, horizontally: bool):
+        dir_x = self.direction[0]
+        dir_y = self.direction[1]
+        if horizontally:
+            dir_x *= -1
+        else:
+            dir_y *= -1
+        self.direction = (dir_x, dir_y)
+
+    def check_collision(self, left_paddle: Turtle, right_paddle: Turtle):
+        xcor = self.xcor()
+        can_collide = self.is_going_left() and left_paddle.xcor() + 18 >= xcor
+        if can_collide:
+            if self.distance(left_paddle) < 60:
+                self.bounce(horizontally=True)
+            return  # we don't need to check right paddle, if the left one is that close
+
+        can_collide = self.is_going_right() and right_paddle.xcor() - 18 <= xcor
+        if can_collide:
+            if self.distance(right_paddle) < 60:
+                self.bounce(horizontally=True)
+
+    def is_going_left(self):
+        return self.direction[0] < 0
+
+    def is_going_right(self):
+        return self.direction[0] > 0
 
     def is_on_top(self):
         is_going_up = self.direction[1] > 0
