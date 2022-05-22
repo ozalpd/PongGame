@@ -1,11 +1,13 @@
 from pong_screen import PongScreen
 from paddle import Paddle
+from ball import Ball
 import time
 
 pong = PongScreen()
 screen = pong.screen
 left_paddle = Paddle(pong, "L")
 right_paddle = Paddle(pong, "R")
+ball = Ball(pong)
 
 screen.listen()
 screen.onkey(pong.exit_game, "x")
@@ -22,8 +24,16 @@ screen.onkeypress(right_paddle.down, "Down")
 screen.onkeyrelease(right_paddle.stop, "Down")
 
 while pong.is_game_on:
+    ball.move()
     left_paddle.move()
     right_paddle.move()
+    # TODO: detect any paddle collision
+    if ball.is_on_right_bound():
+        ball.refresh()
+        # TODO: Add score to left player
+    elif ball.is_on_left_bound():
+        ball.refresh()
+        # TODO: Add score to right player
     screen.update()
     time.sleep(0.01)
 

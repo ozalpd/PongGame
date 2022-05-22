@@ -1,11 +1,11 @@
 from turtle import Turtle
-from pong_screen import PongScreen, LINE_COLOR, HALF_WIDTH, HALF_HEIGHT
+from pong_screen import PongScreen, HALF_WIDTH, HALF_HEIGHT, LINE_COLOR
 
-MARGIN_H = 20
-MARGIN_TOP = 56
-MARGIN_BOTTOM = 72
-LEFT_X = 12 + MARGIN_H - HALF_WIDTH
-RIGHT_X = HALF_WIDTH - 20 - MARGIN_H
+MARGIN_HORIZONTAL = 20
+MARGIN_TOP = 51
+MARGIN_BOTTOM = 60
+LEFT_X = 12 + MARGIN_HORIZONTAL - HALF_WIDTH
+RIGHT_X = HALF_WIDTH - 20 - MARGIN_HORIZONTAL
 MOVE_STEP = 3
 
 
@@ -30,7 +30,7 @@ class Paddle(Turtle):
         moving_up = self.velocity > 0
         moving_down = self.velocity < 0
         pos_y = self.ycor()
-        if (moving_up and pos_y < HALF_HEIGHT - MARGIN_TOP) or (moving_down and pos_y > MARGIN_TOP - HALF_HEIGHT):
+        if (moving_up and pos_y < HALF_HEIGHT - MARGIN_TOP) or (moving_down and pos_y > MARGIN_BOTTOM - HALF_HEIGHT):
             self.sety(pos_y + self.velocity)
 
     def down(self):
