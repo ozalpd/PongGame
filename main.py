@@ -42,7 +42,7 @@ while pong.is_game_on:
             ball.bounce(horizontally=True)  # start against to one had the score
         right_scoreboard.increase_score()
     screen.update()
-    time.sleep(0.01)
+    time.sleep(ball.sleep_time)
 
 if not pong.player_exiting:
     screen.exitonclick()

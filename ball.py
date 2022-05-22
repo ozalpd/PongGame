@@ -13,6 +13,7 @@ class Ball(Turtle):
         self.penup()
         self.direction = get_rand_direction()
         self.pong = pong
+        self.sleep_time = 0.04
 
     def move(self):
         if self.is_on_top() or self.is_on_bottom():
@@ -42,12 +43,14 @@ class Ball(Turtle):
         if can_collide:
             if self.distance(left_paddle) < 60:
                 self.bounce(horizontally=True)
+                self.sleep_time *= 0.95
             return  # we don't need to check right paddle, if the left one is that close
 
         can_collide = self.is_going_right() and right_paddle.xcor() - 18 <= xcor
         if can_collide:
             if self.distance(right_paddle) < 60:
                 self.bounce(horizontally=True)
+                self.sleep_time *= 0.95
 
     def is_going_left(self):
         return self.direction[0] < 0
@@ -66,6 +69,7 @@ class Ball(Turtle):
     def refresh(self):
         self.direction = get_rand_direction()
         self.goto(0, 0)
+        self.sleep_time = 0.04
 
 
 def get_rand_direction():

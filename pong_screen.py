@@ -15,7 +15,7 @@ class PongScreen:
         self.screen.bgcolor(BG_COLOR)
         self.screen.tracer(0)
         self.is_game_on = True
-        self.game_speed = 1
+        self.game_speed = 6
         self.set_title()
         self.player_exiting = False
         pen = Turtle()
@@ -41,8 +41,9 @@ class PongScreen:
         self.player_exiting = True
 
     def increase_speed(self):
-        self.game_speed += 1
-        self.set_title()
+        if self.game_speed < 16:
+            self.game_speed += 1
+            self.set_title()
 
     def decrease_speed(self):
         if self.game_speed > 1:
